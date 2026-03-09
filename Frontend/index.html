@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dota 2 Boost Operator Panel</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar panel glass">
+      <div>
+        <div class="eyebrow">operator panel</div>
+        <h1>Dota 2 Boost</h1>
+        <p class="muted">Быстрый расчёт для сайта, Telegram-бота и копирования шаблонов клиенту.</p>
+      </div>
+
+      <section>
+        <div class="section-title">Услуга</div>
+        <div id="serviceCards" class="service-grid"></div>
+      </section>
+
+      <section>
+        <div class="section-title">Категория FanPay</div>
+        <div class="segmented" id="categorySegment">
+          <button type="button" data-category="boost" class="segmented-btn is-active">Буст</button>
+          <button type="button" data-category="education" class="segmented-btn">Обучение</button>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-title">Маржа</div>
+        <div class="preset-row" id="marginPresets">
+          <button type="button" class="chip is-active" data-margin="25">25%</button>
+          <button type="button" class="chip" data-margin="20">20%</button>
+          <button type="button" class="chip" data-margin="30">30%</button>
+          <button type="button" class="chip" data-margin="35">35%</button>
+        </div>
+        <label class="field-label" for="margin">Своя маржа, %</label>
+        <input id="margin" class="field" type="number" min="0" value="25" />
+      </section>
+
+      <section class="telegram-box">
+        <div class="section-title">Telegram</div>
+        <div class="hint">Команда формируется автоматически после расчёта.</div>
+        <pre id="telegramPreview" class="code-box">/mmr 3000 4500 doubles margin=25 category=boost</pre>
+        <button id="copyTelegram" class="secondary-btn" type="button">Скопировать команду</button>
+      </section>
+    </aside>
+
+    <main class="main-grid">
+      <section class="panel glass form-panel">
+        <div class="panel-header">
+          <div>
+            <div class="eyebrow">calculator</div>
+            <h2>Параметры заказа</h2>
+          </div>
+          <button id="resetBtn" class="ghost-btn" type="button">Сбросить</button>
+        </div>
+
+        <div class="form-grid">
+          <div>
+            <label id="fromLabel" class="field-label" for="fromInput">Текущий MMR</label>
+            <input id="fromInput" class="field" type="number" min="0" value="3000" />
+          </div>
+          <div>
+            <label id="toLabel" class="field-label" for="toInput">Целевой MMR</label>
+            <input id="toInput" class="field" type="number" min="0" value="4500" />
+          </div>
+        </div>
+
+        <div id="options" class="options-grid"></div>
+
+        <div class="action-row">
+          <button id="copyClient" type="button">Скопировать клиенту</button>
+          <button id="copyInternal" class="secondary-btn" type="button">Скопировать себе</button>
+        </div>
+      </section>
+
+      <section class="panel glass result-panel">
+        <div class="panel-header">
+          <div>
+            <div class="eyebrow">summary</div>
+            <h2>Итог</h2>
+          </div>
+          <div id="stateBadge" class="status-badge">auto</div>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card client">
+            <span>Клиенту</span>
+            <strong id="clientValue">0 ₽</strong>
+          </div>
+          <div class="kpi-card booster">
+            <span>Бустеру</span>
+            <strong id="boosterValue">0 ₽</strong>
+          </div>
+          <div class="kpi-card profit">
+            <span>Прибыль</span>
+            <strong id="profitValue">0 ₽</strong>
+          </div>
+        </div>
+
+        <div class="details-card">
+          <div class="line"><span>Фикс</span><span id="fixValue">0 ₽</span></div>
+          <div class="line"><span>Выплата бустеру 50/50</span><span id="boosterPayoutValue">0 ₽</span></div>
+          <div class="line"><span>Коэффициент FanPay</span><span id="coeffValue">0</span></div>
+          <div class="line"><span>Услуга</span><span id="serviceLabel">MMR Boost</span></div>
+        </div>
+
+        <div class="text-blocks">
+          <div>
+            <div class="mini-title">Сообщение клиенту</div>
+            <pre id="clientText" class="text-preview"></pre>
+          </div>
+          <div>
+            <div class="mini-title">Внутренний расчёт</div>
+            <pre id="internalText" class="text-preview"></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel glass history-panel">
+        <div class="panel-header">
+          <div>
+            <div class="eyebrow">history</div>
+            <h2>Последние расчёты</h2>
+          </div>
+          <button id="clearHistory" class="ghost-btn" type="button">Очистить</button>
+        </div>
+        <div id="historyList" class="history-list"></div>
+      </section>
+
+      <section class="panel glass split-panel">
+        <div class="panel-header">
+          <div>
+            <div class="eyebrow">fanpay 50/50</div>
+            <h2>Быстрый калькулятор комиссии</h2>
+          </div>
+        </div>
+        <div class="split-grid">
+          <div>
+            <label class="field-label" for="splitSum">Чистая сумма</label>
+            <input id="splitSum" class="field" type="number" min="1" value="100" />
+          </div>
+        </div>
+        <div id="splitCards" class="split-cards"></div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
